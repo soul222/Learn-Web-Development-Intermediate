@@ -1,0 +1,34 @@
+{
+  "id": "/#/",
+  "start_url": "/#/",
+  "scope": "/",
+  "name": "Story Web App",
+  "short_name": "StoryGan",
+  "description": "Social media app for students dicoding",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0095f6",
+  "icons": [
+    {
+      "src": "images/Logo.png",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Story Baru",
+      "short_name": "Baru",
+      "description": "Membuat story baru.",
+      "url": "/?source=pwa#/new",
+      "icons": [
+        {
+          "src": "images/icons/add-x512.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    }
+  ]
+}
