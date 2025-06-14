@@ -1,13 +1,17 @@
-export function showFormattedDate(date, locale = 'en-US', options = {}) {
+export function showFormattedDate(date, locale = "en-US", options = {}) {
   return new Date(date).toLocaleDateString(locale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    year: "numeric",
+    month: "long",
+    day: "numeric",
     ...options,
   });
 }
 
-export function convertBase64ToBlob(base64Data, contentType = '', sliceSize = 512) {
+export function convertBase64ToBlob(
+  base64Data,
+  contentType = "",
+  sliceSize = 512
+) {
   const byteCharacters = atob(base64Data);
   const byteArrays = [];
 
@@ -27,8 +31,8 @@ export function convertBase64ToBlob(base64Data, contentType = '', sliceSize = 51
 }
 
 export function convertBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
   const rawData = atob(base64);
   const outputArray = new Uint8Array(rawData.length);
 
@@ -39,56 +43,76 @@ export function convertBase64ToUint8Array(base64String) {
 }
 
 export function setupSkipToContent(element, mainContent) {
-  element.addEventListener('click', () => mainContent.focus());
+  element.addEventListener("click", () => mainContent.focus());
 }
 
-export function transitionHelper({ skipTransition = false, updateDOM }) {
+export const transitionHelper = (updateDOM, skipTransition = false) => {
   if (skipTransition || !document.startViewTransition) {
-    const updateCallbackDone = Promise.resolve(updateDOM()).then(() => {});
+    const contentElement = document.getElementById("main-content");
+    if (contentElement) {
+      contentElement.classList.add("fade-transition");
+      contentElement.classList.remove("fade-in");
+    }
+
+    const updateCallbackDone = Promise.resolve(updateDOM()).then(() => {
+      requestAnimationFrame(() => {
+        if (contentElement) {
+          contentElement.classList.add("fade-in");
+        }
+      });
+    });
 
     return {
-      ready: Promise.reject(Error('View transition unsupported.')),
+      ready: Promise.reject(Error("View transition unsupported.")),
       updateCallbackDone,
-      finished: updateCallbackDone
+      finished: updateCallbackDone,
     };
   }
 
-  return  document.startViewTransition(updateDOM);
-}
+  const transition = document.startViewTransition(updateDOM);
 
-export function sleep(time = 1000) {
+  transition.ready.catch((err) => {
+    if (err.message !== "View transition unsupported.") {
+      console.error(err);
+    }
+  });
+
+  return transition;
+};
+
+export function sleep(time = 500) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 export function isServiceWorkerAvailable() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register('/sw.bundle.js')
+        .register("/sw.bundle.js")
         .then((registration) => {
-          console.log('Service Worker registered successfully:', registration);
+          console.log("Service Worker registered successfully:", registration);
         })
         .catch((error) => {
-          console.log('Registration Service Worker failed:', error);
+          console.log("Registration Service Worker failed:", error);
         });
     });
   }
-  
-  return 'serviceWorker' in navigator;
+
+  return "serviceWorker" in navigator;
 }
 
 export async function registerServiceWorker() {
   if (!isServiceWorkerAvailable()) {
-    console.log('Service worker API unsupported.');
+    console.log("Service worker API unsupported.");
     return;
   }
 
   try {
-    const registration = await navigator.serviceWorker.register('/sw.bundle.js');
-    console.log('service worker has been installed', registration);
+    const registration = await navigator.serviceWorker.register(
+      "/sw.bundle.js"
+    );
+    console.log("service worker has been installed", registration);
   } catch (error) {
-    console.log('Failed to install service worker:', error);
+    console.log("Failed to install service worker:", error);
   }
 }
-
-

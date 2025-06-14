@@ -38,7 +38,6 @@ class App {
     this.#setupDrawer();
   }
 
-
   #setupDrawer() {
     this.#drawerButton.addEventListener("click", () => {
       this.#navigationDrawer.classList.toggle("open");
@@ -57,7 +56,7 @@ class App {
       this.#navigationDrawer.querySelectorAll("a").forEach((link) => {
         if (link.contains(event.target)) {
           this.#navigationDrawer.classList.remove("open");
-          this.#drawerButton.classList.remove("active"); 
+          this.#drawerButton.classList.remove("active");
         }
       });
     });
@@ -126,14 +125,15 @@ class App {
 
     const page = route();
 
-    const transition = transitionHelper({
-      updateDOM: async () => {
-        this.#content.innerHTML = await page.render();
-        await page.afterRender();
-      },
+    const transition = transitionHelper(async () => {
+      this.#content.innerHTML = await page.render();
+      await page.afterRender();
     });
 
-    transition.ready.catch(console.error);
+    transition.ready.catch((err) => {
+      if (err.message !== "View transition unsupported.") console.error(err);
+    });
+
     transition.updateCallbackDone.then(() => {
       scrollTo({ top: 0, behavior: "instant" });
       this.#setupNavigationList();

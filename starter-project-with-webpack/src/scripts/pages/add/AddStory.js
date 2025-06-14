@@ -69,6 +69,7 @@ export default class AddStory {
                             </div>
                         </div>
                         <div class="form-control">    
+                          <label for="location-input" class="new-form__location__title">Location</label>
                           <div class="new-form__location__container">
                             <div class="new-form__location__map__container">
                               <div id="map" class="new-form__location__map"></div>

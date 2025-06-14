@@ -29,7 +29,7 @@
   "dependencies": {
     "idb": "^8.0.2",
     "leaflet": "^1.9.4",
-    "sweetalert2": "^11.17.2",
+    "sweetalert2": "^11.6.13",
     "workbox-cacheable-response": "^7.3.0",
     "workbox-precaching": "^7.3.0",
     "workbox-routing": "^7.3.0",

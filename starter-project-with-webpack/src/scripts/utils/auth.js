@@ -1,5 +1,7 @@
 import CONFIG from "../config";
 import { getActiveRoute } from "../routes/url-parser";
+import Login from "../pages/auth/login/login";
+import Home from "../pages/home/home";
 
 export function getAccessToken() {
   try {
@@ -44,7 +46,7 @@ export function checkUnauthenticatedRouteOnly(page) {
 
   if (unauthenticatedRoutesOnly.includes(url) && isLogin) {
     location.hash = "/";
-    return null;
+    return Home;
   }
 
   return page;
@@ -55,7 +57,7 @@ export function checkAuthenticatedRoute(page) {
 
   if (!isLogin) {
     location.hash = "/login";
-    return null;
+    return Login;
   }
 
   return page;

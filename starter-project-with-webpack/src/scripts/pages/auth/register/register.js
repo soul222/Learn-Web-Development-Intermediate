@@ -13,16 +13,19 @@ export default class Register {
                     
                     <form id="register-form" class="register-from">
                         <div class="form-control">
+                            <label for="name-input" class="register-form__name-title">Username</label>
                             <div class="register-form__title-container">
                                 <input id="name-input" type="text" name="name" placeholder="username">
                             </div>
                         </div>
-                        <div class="form-control">            
+                        <div class="form-control">      
+                          <label for="email-input" class="register-form__email-title">Email</label>      
                           <div class="register-form__title-container">
                             <input id="email-input" type="email" name="email" placeholder="email">
                           </div>
                         </div>
-                        <div class="form-control">            
+                        <div class="form-control">       
+                          <label for="password-input" class="register-form__password-title">Password</label>     
                           <div class="register-form__title-container">
                             <input id="password-input" type="password" name="password" placeholder="password">
                           </div>
